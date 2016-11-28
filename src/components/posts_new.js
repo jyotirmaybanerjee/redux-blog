@@ -1,9 +1,16 @@
-import React, { Component, PropTypes } from 'react';
-import { reduxForm } from 'redux-form';
-import { createPost } from '../actions/index';
-import { Link } from 'react-router';
+import React, {Component, PropTypes} from 'react';
+import {reduxForm} from 'redux-form';
+import {Link} from 'react-router';
+import {createPost} from '../actions/index';
 
 class PostsNew extends Component {
+
+  static propTypes = {
+    createPost: PropTypes.func,
+    fields: PropTypes.object,
+    handleSubmit: PropTypes.func
+  };
+
   static contextTypes = {
     router: PropTypes.object
   };
@@ -19,14 +26,14 @@ class PostsNew extends Component {
   }
 
   render() {
-    const { fields: { title, categories, content }, handleSubmit } = this.props;
+    const {fields: {title, categories, content}, handleSubmit} = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Create A New Post</h3>
 
         <div className={`form-group ${title.touched && title.invalid ? 'has-danger' : ''}`}>
-          <label>Title</label>
+          <label htmlFor="">Title</label>
           <input type="text" className="form-control" {...title} />
           <div className="text-help">
             {title.touched ? title.error : ''}
@@ -34,7 +41,7 @@ class PostsNew extends Component {
         </div>
 
         <div className={`form-group ${categories.touched && categories.invalid ? 'has-danger' : ''}`}>
-          <label>Categories</label>
+          <label htmlFor="">Categories</label>
           <input type="text" className="form-control" {...categories} />
           <div className="text-help">
             {categories.touched ? categories.error : ''}
@@ -42,7 +49,7 @@ class PostsNew extends Component {
         </div>
 
         <div className={`form-group ${content.touched && content.invalid ? 'has-danger' : ''}`}>
-          <label>Content</label>
+          <label htmlFor="">Content</label>
           <textarea className="form-control" {...content} />
           <div className="text-help">
             {content.touched ? content.error : ''}
@@ -65,7 +72,7 @@ function validate(values) {
   if (!values.categories) {
     errors.categories = 'Enter categories';
   }
-  if(!values.content) {
+  if (!values.content) {
     errors.content = 'Enter some content';
   }
 
@@ -78,4 +85,4 @@ export default reduxForm({
   form: 'PostsNewForm',
   fields: ['title', 'categories', 'content'],
   validate
-}, null, { createPost })(PostsNew);
+}, null, {createPost})(PostsNew);

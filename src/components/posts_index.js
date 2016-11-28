@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchPosts } from '../actions/index';
-import { Link } from 'react-router';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router';
+import {fetchPosts} from '../actions/index';
 
 class PostsIndex extends Component {
+
+  static propTypes = {
+    fetchPosts: PropTypes.func,
+    posts: PropTypes.object
+  };
+
   componentWillMount() {
     this.props.fetchPosts();
   }
@@ -12,7 +18,7 @@ class PostsIndex extends Component {
     return this.props.posts.map((post) => {
       return (
         <li className="list-group-item" key={post.id}>
-          <Link to={"posts/" + post.id}>
+          <Link to={`posts/${post.id}`}>
             <span className="pull-xs-right">{post.categories}</span>
             <strong>{post.title}</strong>
           </Link>
@@ -39,7 +45,7 @@ class PostsIndex extends Component {
 }
 
 function mapStateToProps(state) {
-  return { posts: state.posts.all };
+  return {posts: state.posts.all};
 }
 
-export default connect(mapStateToProps, { fetchPosts })(PostsIndex);
+export default connect(mapStateToProps, {fetchPosts})(PostsIndex);

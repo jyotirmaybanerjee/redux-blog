@@ -1,9 +1,17 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { fetchPost, deletePost } from '../actions/index';
-import { Link } from 'react-router';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router';
+import {fetchPost, deletePost} from '../actions/index';
 
 class PostsShow extends Component {
+
+  static propTypes = {
+    fetchPost: PropTypes.func,
+    params: PropTypes.object,
+    deletePost: PropTypes.func,
+    post: PropTypes.object
+  };
+
   static contextTypes = {
     router: PropTypes.object
   };
@@ -18,7 +26,7 @@ class PostsShow extends Component {
   }
 
   render() {
-    const { post } = this.props;
+    const {post} = this.props;
 
     if (!post) {
       return <div>Loading...</div>;
@@ -29,7 +37,8 @@ class PostsShow extends Component {
         <Link to="/">Back To Index</Link>
         <button
           className="btn btn-danger pull-xs-right"
-          onClick={this.onDeleteClick.bind(this)}>
+          onClick={this.onDeleteClick.bind(this)}
+        >
           Delete Post
         </button>
         <h3>{post.title}</h3>
@@ -41,7 +50,7 @@ class PostsShow extends Component {
 }
 
 function mapStateToProps(state) {
-  return { post: state.posts.post };
+  return {post: state.posts.post};
 }
 
-export default connect(mapStateToProps, { fetchPost, deletePost })(PostsShow);
+export default connect(mapStateToProps, {fetchPost, deletePost})(PostsShow);
